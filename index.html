@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="jp">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <title>scratch sample</title>
+  </head>
+
+  <body>
+    <iframe
+      src="https://scratch.mit.edu/projects/450289525/embed"
+      allowtransparency="true"
+      frameborder="0"
+      scrolling="no"
+      allowfullscreen
+    ></iframe>
+  </body>
+
+  <style>
+    body {
+      border: none;
+    }
+  </style>
+
+  <script>
+    //@ts-check
+    "use strict";
+
+    (function () {
+      const iframeElm = document.querySelector("iframe");
+
+      iframeElm.onload = () => {
+        adjustIframeSize();
+        registorResizeEvent(adjustIframeSize);
+      };
+
+      function adjustIframeSize() {
+        const displayWidth = window.innerWidth;
+        const displayHeight = window.innerHeight;
+        const ScratchIframeRatio = 402 / 485;
+
+        if (displayWidth > displayHeight) {
+          iframeElm.style.height = ToString_And_AddPx(displayHeight);
+          iframeElm.style.width = ToString_And_AddPx(
+            displayHeight * (1 / ScratchIframeRatio)
+          );
+        } else {
+          iframeElm.style.width = ToString_And_AddPx(displayWidth);
+          iframeElm.style.height = ToString_And_AddPx(
+            displayWidth * ScratchIframeRatio
+          );
+        }
+
+        function ToString_And_AddPx(num) {
+          return `${String(num)}px`;
+        }
+      }
+
+      function isSmartPhone() {
+        let ua = navigator.userAgent;
+        if (
+          ua.indexOf("iPhone") >= 0 ||
+          ua.indexOf("Mobile") >= 0 ||
+          ua.indexOf("Android") >= 0
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      function registorResizeEvent(event) {
+        window.onorientationchange = () => {
+          event();
+        };
+        window.onresize = () => {
+          event();
+        };
+      }
+    })();
+  </script>
+</html>
